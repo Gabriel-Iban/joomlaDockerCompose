@@ -34,3 +34,5 @@ services:
       - JOOMLA_DB_PASSWORD=147258369
     depends_on:
       - db
+    volumes:
+      - ./joomla:/var/www/html
