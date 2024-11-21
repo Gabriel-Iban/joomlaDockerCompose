@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+        - ./mysql/mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootPass 
+      - MYSQL_DATABASE=joomladb
+      - MYSQL_USER=joomlauser
+      - MYSQL_PASSWORD=147258369
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=rootPass
+    depends_on:
+      - db
+
+  joomla:
+    image: joomla:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      - JOOMLA_DB_HOST=db
+      - JOOMLA_DB_NAME=joomladb
+      - JOOMLA_DB_USER=joomlauser
+      - JOOMLA_DB_PASSWORD=147258369
+    depends_on:
+      - db
